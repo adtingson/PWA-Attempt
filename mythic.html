@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mythic 2e</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ✅ PWA Meta -->
+    <meta name="theme-color" content="#4CAF50">
+
+    <!-- ✅ Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Script -->
+    <script defer src="mythic2e.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Mythic 2e Oracles</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Fate Questions</h2>
+            <p>
+                <label for="chaosFactor">Chaos Factor:</label>
+                <button onclick="chaosAdjust(-1)">-</button>
+                <input type="number" name="chaosFactor" id="chaosFactor" value="5" min="1" max="9">
+                <button onclick="chaosAdjust(+1)">+</button>
+                <br>
+
+                <label for="Odds">Odds:</label>
+                <select name="Odds" id="Odds">
+                    <option value="0">Impossible</option>
+                    <option value="1">Nearly Impossible</option>
+                    <option value="2">Very Unlikely</option>
+                    <option value="3">Unlikely</option>
+                    <option value="4" selected>50/50</option>
+                    <option value="5">Likely</option>
+                    <option value="6">Very Likely</option>
+                    <option value="7">Nearly Certain</option>
+                    <option value="8">Certain</option>
+                </select>
+                <br>
+
+                <label for="randomFocus">Event Meaning:</label>
+                <select name="randomFocus" id="randomFocus">
+                    <option value="0" selected>Action</option>
+                    <option value="1">Description</option>
+                    <option value="2">Location</option>
+                    <option value="3">Character</option>
+                    <option value="4">Object</option>
+                </select>
+                <br>
+
+                <b>Answer Question:</b>
+                <input type="button" value="Roll"
+                    onclick="document.getElementById('fateQuestionResult').innerHTML=FateCheck(document.getElementById('chaosFactor').value, document.getElementById('Odds').value, document.getElementById('randomFocus').value);">
+                <input type="button" value="Clear"
+                    onclick="document.getElementById('fateQuestionResult').innerHTML='';document.getElementById('Odds').value='4'">
+                <ul>
+                    <li id="fateQuestionResult"></li>
+                </ul>
+
+                <b>Check Expected Scene:</b>
+                <input type="button" value="Roll"
+                    onclick="document.getElementById('checkSceneResult').innerHTML=expectedSceneCheck(document.getElementById('chaosFactor').value, document.getElementById('randomFocus').value);">
+                <input type="button" value="Clear"
+                    onclick="document.getElementById('checkSceneResult').innerHTML=''">
+                <ul>
+                    <li id="checkSceneResult"></li>
+                </ul>
+
+                <b>Random Event:</b>
+                <input type="button" value="Roll"
+                    onclick="document.getElementById('randomEventResult').innerHTML=randomEventGen(document.getElementById('randomFocus').value)">
+                <input type="button" value="Clear"
+                    onclick="document.getElementById('randomEventResult').innerHTML=''">
+                <ul>
+                    <li id="randomEventResult"></li>
+                </ul>
+            </p>
+        </section>
+
+        <footer>
+            Created by Albert. 2026.
+        </footer>
+    </main>
+
+    <!-- ✅ Service Worker Registration -->
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("service-worker.js")
+                    .then(() => console.log("Service Worker Registered"))
+                    .catch(err => console.log("SW failed:", err));
+            });
+        }
+    </script>
+
+</body>
+</html>
